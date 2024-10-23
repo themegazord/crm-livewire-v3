@@ -1,6 +1,8 @@
 <?php
 
+use App\Livewire\Autenticacao\Registro;
 use App\Livewire\Welcome;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', Welcome::class);
+Route::get('/registro', Registro::class)->name('autenticacao.registro');
+Route::get('/logout', fn() => Auth::logout());

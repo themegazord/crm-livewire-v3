@@ -4,6 +4,7 @@ namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -17,6 +18,7 @@ class Registro extends Component
   #[Rule(['required'])]
   public ?string $password = null;
 
+  #[Layout('components.layouts.guest')]
   public function render()
   {
     return view('livewire.autenticacao.registro');
