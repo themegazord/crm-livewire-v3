@@ -7,7 +7,9 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "livewire/livewire": "^3.5",
+        "robsontenorio/mary": "^1.41"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -50,7 +52,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74,#fb5d6c\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" \"C:/php/mailpit.exe\" --names=server,queue,vite,mailpit"
         ]
     },
     "extra": {
