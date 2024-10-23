@@ -2,8 +2,9 @@
 
 use App\Livewire\Autenticacao\Registro;
 use App\Models\User;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use App\Notifications\BemVindoNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -49,14 +50,28 @@ test('regras de validacao', function ($objeto) {
 
   $livewire->call('submit')
     ->assertHasErrors([$objeto->campo => $objeto->rule]);
-})
-  ->with([
-    'name::required' => (object)['campo' => 'name', 'value' => '', 'rule' => 'required'],
-    'name::max:255' => (object)['campo' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
-    'email::required' => (object)['campo' => 'email', 'value' => '', 'rule' => 'required'],
-    'email::email' => (object)['campo' => 'email', 'value' => 'nao-e-email', 'rule' => 'email'],
-    'email::max:255' => (object)['campo' => 'email', 'value' => str_repeat('*' . '@doe.com', 256), 'rule' => 'max'],
-    'email::confirmed' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
-    'email::unique' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'unique', 'aCampo' => 'email_confirmation', 'aValue' => 'joe@doe.com'],
-    'password::required' => (object)['campo' => 'password', 'value' => '', 'rule' => 'required'],
-  ]);
+})->with([
+  'name::required' => (object)['campo' => 'name', 'value' => '', 'rule' => 'required'],
+  'name::max:255' => (object)['campo' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
+  'email::required' => (object)['campo' => 'email', 'value' => '', 'rule' => 'required'],
+  'email::email' => (object)['campo' => 'email', 'value' => 'nao-e-email', 'rule' => 'email'],
+  'email::max:255' => (object)['campo' => 'email', 'value' => str_repeat('*' . '@doe.com', 256), 'rule' => 'max'],
+  'email::confirmed' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
+  'email::unique' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'unique', 'aCampo' => 'email_confirmation', 'aValue' => 'joe@doe.com'],
+  'password::required' => (object)['campo' => 'password', 'value' => '', 'rule' => 'required'],
+]);
+
+it('deve ser capaz de enviar a notificacao de boas vindas para um novo usuario', function () {
+  Notification::fake();
+
+  Livewire::test(Registro::class)
+    ->set('name', 'Joe Doe')
+    ->set('email', 'joe@doe.com')
+    ->set('email_confirmation', 'joe@doe.com')
+    ->set('password', 'password')
+    ->call('submit');
+
+    $user = User::whereEmail('joe@doe.com')->first();
+
+    Notification::assertSentTo($user, BemVindoNotification::class);
+});

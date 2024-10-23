@@ -3,6 +3,7 @@
 namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
+use App\Notifications\BemVindoNotification;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -34,6 +35,8 @@ class Registro extends Component
     ]);
 
     Auth::login($user);
+
+    $user->notify(new BemVindoNotification);
 
     $this->redirect('/');
   }
