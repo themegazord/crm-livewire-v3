@@ -3,6 +3,7 @@
 namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -24,10 +25,12 @@ class Registro extends Component
   public function submit(): void {
     $this->validate();
 
-    User::query()->create([
+    $user = User::query()->create([
       'name' => $this->name,
       'email' => $this->email,
       'password' => $this->password
     ]);
+
+    Auth::login($user);
   }
 }

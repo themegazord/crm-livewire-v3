@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Autenticacao\Registro;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -20,12 +22,16 @@ it('deve ser capaz de registrar um novo usuario no sistema', function () {
     ->call('submit')
     ->assertHasNoErrors();
 
-    assertDatabaseHas('users', [
-      'name' => 'Joe Doe',
-      'email' => 'joe@doe.com'
-    ]);
+  assertDatabaseHas('users', [
+    'name' => 'Joe Doe',
+    'email' => 'joe@doe.com'
+  ]);
 
-    assertDatabaseCount('users', 1);
+  assertDatabaseCount('users', 1);
+
+  expect(Auth::check())
+    ->and(Auth::user())
+    ->id->toBe(User::first()->id);
 });
 
 test('validation rules', function ($objeto) {
@@ -34,12 +40,12 @@ test('validation rules', function ($objeto) {
     ->call('submit')
     ->assertHasErrors([$objeto->campo => $objeto->rule]);
 })
-->with([
-  'name::required' => (object)['campo' => 'name', 'value' => '', 'rule' => 'required'],
-  'name::max:255' => (object)['campo' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
-  'email::required' => (object)['campo' => 'email', 'value' => '', 'rule' => 'required'],
-  'email::email' => (object)['campo' => 'email', 'value' => 'nao-e-email', 'rule' => 'email'],
-  'email::max:255' => (object)['campo' => 'email', 'value' => str_repeat('*'.'@doe.com', 256), 'rule' => 'max'],
-  'email::confirmed' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
-  'password::required' => (object)['campo' => 'password', 'value' => '', 'rule' => 'required'],
-]);
+  ->with([
+    'name::required' => (object)['campo' => 'name', 'value' => '', 'rule' => 'required'],
+    'name::max:255' => (object)['campo' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
+    'email::required' => (object)['campo' => 'email', 'value' => '', 'rule' => 'required'],
+    'email::email' => (object)['campo' => 'email', 'value' => 'nao-e-email', 'rule' => 'email'],
+    'email::max:255' => (object)['campo' => 'email', 'value' => str_repeat('*' . '@doe.com', 256), 'rule' => 'max'],
+    'email::confirmed' => (object)['campo' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
+    'password::required' => (object)['campo' => 'password', 'value' => '', 'rule' => 'required'],
+  ]);
