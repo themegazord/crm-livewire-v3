@@ -3,13 +3,12 @@
 namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\Redirector;
+use Illuminate\Support\Str;
 
 class Login extends Component
 {
@@ -24,17 +23,27 @@ class Login extends Component
     return view('livewire.autenticacao.login');
   }
 
-  public function submit(): MessageBag|Redirector|RedirectResponse|self {
+  public function submit(): void {
     $this->validate();
 
+    if (RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+      $this->addError('rateLimiter', "Too many requests, wait for " . RateLimiter::availableIn($this->throttleKey()) . " seconds.");
+      return;
+    }
+
     if (!Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+      RateLimiter::hit($this->throttleKey());
       $this->addError('email', "Email and password they're incompatible");
-      return $this;
+      return;
     }
 
     $usuario = User::query()->where('email', $this->email)->first();
     Auth::login($usuario);
 
-    return redirect('/');
+    $this->redirect(route('dashboard'));
+  }
+
+  public function throttleKey(): string {
+    return Str::transliterate($this->email .'|'. request()->ip());
   }
 }
