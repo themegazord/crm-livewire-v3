@@ -32,5 +32,7 @@ class Registro extends Component
     ]);
 
     Auth::login($user);
+
+    $this->redirect('/');
   }
 }

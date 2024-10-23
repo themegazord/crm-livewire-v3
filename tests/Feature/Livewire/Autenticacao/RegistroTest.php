@@ -2,6 +2,7 @@
 
 use App\Livewire\Autenticacao\Registro;
 use App\Models\User;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 
@@ -20,7 +21,8 @@ it('deve ser capaz de registrar um novo usuario no sistema', function () {
     ->set('email_confirmation', 'joe@doe.com')
     ->set('password', 'password')
     ->call('submit')
-    ->assertHasNoErrors();
+    ->assertHasNoErrors()
+    ->assertRedirect('/');
 
   assertDatabaseHas('users', [
     'name' => 'Joe Doe',
