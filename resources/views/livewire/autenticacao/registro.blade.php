@@ -6,8 +6,13 @@
     <x-input label="Senha" wire:model="password" type="password" />
 
     <x-slot:actions>
-      <x-button label="Limpar campos" type="reset" />
-      <x-button label="Cadastrar" class="btn-primary" type="submit" spinner="save" />
+    <div class="w-full flex items-center justify-between">
+        <a wire:navigate href="{{ route('login') }}" class="link link-primary">Já tenho uma conta</a>
+        <div class="flex gap-4">
+          <x-button label="Limpar campos" type="reset" />
+          <x-button label="Cadastrar" class="btn-primary" type="submit" spinner="save" />
+        </div>
+      </div>
     </x-slot:actions>
   </x-form>
 </x-card>
