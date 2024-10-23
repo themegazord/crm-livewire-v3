@@ -15,7 +15,7 @@
   <x-main full-width>
     {{-- The `$slot` goes here --}}
     <x-slot:content>
-      <div class="min-h-screen w-screen flex flex-col justify-center items-center pt-6 sm:pt-0">
+      <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0">
         {{ $slot }}
       </div>
     </x-slot:content>
