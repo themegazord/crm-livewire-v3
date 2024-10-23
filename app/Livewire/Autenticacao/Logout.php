@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Autenticacao;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -10,10 +10,15 @@ class Logout extends Component
 {
   public function render()
   {
-    return view('livewire.logout');
+    return <<<BLADE
+      <div>
+        <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" wire:click="logout" />
+      </div>
+    BLADE;
   }
 
-  public function logout(): void {
+  public function logout(): void
+  {
     Auth::logout();
 
     Session::invalidate();

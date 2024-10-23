@@ -2,7 +2,6 @@
 
 use App\Livewire\Logout;
 use App\Models\User;
-use Illuminate\Container\Attributes\Auth;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
