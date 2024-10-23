@@ -45,3 +45,21 @@ it('regras de validacao', function ($objeto) {
   'email::exists' => (object)['campo' => 'email', 'value' => 'jane@doe.com', 'rule' => 'exists:users'],
   'password::required' => (object)['campo' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
+
+it('deve fazer o bloqueio corretamente usando rate limiting apos 5 tentativas', function () {
+  $user = User::factory()->create();
+
+  for($i = 0; $i < 5; $i++) {
+    Livewire::test(Login::class)
+      ->set('email', $user->email)
+      ->set('password', 'wrong-password')
+      ->call('submit')
+      ->assertHasErrors(['email']);
+  }
+
+  Livewire::test(Login::class)
+      ->set('email', $user->email)
+      ->set('password', 'wrong-password')
+      ->call('submit')
+      ->assertHasErrors(['rateLimiter']);
+});
