@@ -3,8 +3,6 @@
 namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
-use App\Notifications\RecuperarSenhaNotification;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
