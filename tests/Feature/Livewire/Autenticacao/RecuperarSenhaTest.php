@@ -22,10 +22,15 @@ it('deve ser capaz de validar o email corretamente', function ($objeto) {
   'email::email' => (object)['campo' => 'email', 'value' => 'not-a-email', 'rule' => 'email'],
 ]);
 
-it('deve ser capaz de enviar uma notificacao para o email informado', function () {
+it('deve ser capaz de enviar uma notificacao para o email informado e redireciona para login', function () {
   Notification::fake();
 
   $user = User::factory()->create(['email' => 'joe@doe.com']);
+
+  Livewire::test(RecuperarSenha::class)
+    ->set('email', $user->email)
+    ->call('submit')
+    ->assertRedirect(route('login'));
 
   Notification::assertSentTo($user, RecuperarSenhaNotification::class);
 });

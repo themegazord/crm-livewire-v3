@@ -6,49 +6,52 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Password;
 
 class RecuperarSenhaNotification extends Notification
 {
-    use Queueable;
+  use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+  /**
+   * Create a new notification instance.
+   */
+  public function __construct(
+    private readonly string $token
+  ){}
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
-    {
-        return ['mail'];
-    }
+  /**
+   * Get the notification's delivery channels.
+   *
+   * @return array<int, string>
+   */
+  public function via(object $notifiable): array
+  {
+    return ['mail'];
+  }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+  /**
+   * Get the mail representation of the notification.
+   */
+  public function toMail($notifiable): MailMessage
+  {
+    return (new MailMessage)
+      ->greeting('Ola')
+      ->subject('Redefinição de Senha')
+      ->line('Você está recebendo este email porque recebemos um pedido de redefinição de senha para sua conta.')
+      ->action('Redefinir Senha', url('password/reset', $this->token))
+      ->line('Se você não solicitou uma redefinição de senha, nenhuma ação adicional é necessária.')
+      ->salutation('Ate mais');
+  }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            //
-        ];
-    }
+  /**
+   * Get the array representation of the notification.
+   *
+   * @return array<string, mixed>
+   */
+  public function toArray(object $notifiable): array
+  {
+    return [
+      //
+    ];
+  }
 }

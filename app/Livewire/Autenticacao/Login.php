@@ -5,13 +5,17 @@ namespace App\Livewire\Autenticacao;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Mary\Traits\Toast;
 
 class Login extends Component
 {
+  use Toast;
+
   #[Rule(['required', 'email', 'max:255', 'exists:users'])]
   public ?string $email = null;
   #[Rule('required')]

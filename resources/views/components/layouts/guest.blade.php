@@ -11,7 +11,8 @@
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-  {{-- MAIN --}}
+  <x-toast />
+{{-- MAIN --}}
   <x-main full-width>
     {{-- The `$slot` goes here --}}
     <x-slot:content>

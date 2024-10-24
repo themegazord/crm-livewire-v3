@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/registro', Registro::class)->name('autenticacao.registro');
 Route::get('/login', Login::class)->name('login');
-Route::get('recuperar_senha', RecuperarSenha::class);
+Route::get('/recuperar_senha', RecuperarSenha::class)->name('password.reset');
 Route::get('/logout', function () {
   Auth::logout();
   return redirect('/');
