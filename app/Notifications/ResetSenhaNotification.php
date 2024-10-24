@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Password;
 
-class RecuperarSenhaNotification extends Notification
+class ResetSenhaNotification extends Notification
 {
   use Queueable;
 
@@ -16,8 +15,7 @@ class RecuperarSenhaNotification extends Notification
    * Create a new notification instance.
    */
   public function __construct(
-    private readonly string $token,
-    private readonly string $email
+    private readonly string $name
   ){}
 
   /**
@@ -33,15 +31,13 @@ class RecuperarSenhaNotification extends Notification
   /**
    * Get the mail representation of the notification.
    */
-  public function toMail($notifiable): MailMessage
+  public function toMail(object $notifiable): MailMessage
   {
     return (new MailMessage)
-      ->greeting('Ola')
-      ->subject('Redefinição de Senha')
-      ->line('Você está recebendo este email porque recebemos um pedido de redefinição de senha para sua conta.')
-      ->action('Redefinir Senha', url('password/reset', [$this->token, $this->email]))
-      ->line('Se você não solicitou uma redefinição de senha, nenhuma ação adicional é necessária.')
-      ->salutation('Ate mais');
+      ->greeting("{$this->name}, deu tudo certo no final :)")
+      ->line('Sua senha foi alterada com sucesso e a essa altura do campeonato, você já está logado novamente no nosso sistema, ebaa!!!!')
+      ->line('Caso precise novamente resetar sua senha em algum momento, é só contar conosco. Divirta-se no nosso app.')
+      ->salutation('Até mais <3');
   }
 
   /**
