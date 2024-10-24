@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Autenticacao\Login;
+use App\Livewire\Autenticacao\RecuperarSenha;
 use App\Livewire\Autenticacao\Registro;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Auth;
@@ -8,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/registro', Registro::class)->name('autenticacao.registro');
 Route::get('/login', Login::class)->name('login');
-Route::get('recuperar_senha');
+Route::get('recuperar_senha', RecuperarSenha::class);
 Route::get('/logout', function () {
   Auth::logout();
   return redirect('/');
