@@ -30,12 +30,12 @@ class RecuperarSenha extends Component
       Password::sendResetLink(
         ['email' => $this->email]
       );
-      $this->success(
-        title: 'E-mail enviado com sucesso!',
-        position: 'toast-top toast-end',
-        timeout: 2000,
-        redirectTo: '/login',
-      );
     }
+    $this->success(
+      title: 'E-mail enviado com sucesso!',
+      position: 'toast-top toast-end',
+      timeout: 2000,
+      redirectTo: '/login',
+    );
   }
 }
