@@ -11,8 +11,17 @@
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-  <x-toast />
-{{-- MAIN --}}
+  @if ($mensagem = session()->get('status.warning'))
+  <x-alert icon="o-exclamation-triangle" class="alert-warning w-2/12 mb-4 absolute top-3 right-3">
+    {{ $mensagem }}
+  </x-alert>
+  @endif
+  @if ($mensagem = session()->get('status.success'))
+  <x-alert icon="o-check-circle" class="alert-success mb-4 w-2/12 absolute top-3 right-3">
+    {{ $mensagem }}
+  </x-alert>
+  @endif
+  {{-- MAIN --}}
   <x-main full-width>
     {{-- The `$slot` goes here --}}
     <x-slot:content>

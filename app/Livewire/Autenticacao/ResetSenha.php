@@ -8,6 +8,7 @@ use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -40,12 +41,8 @@ class ResetSenha extends Component
   public function rendered(): void
   {
     if (empty($this->token) || empty($this->email)) {
-      $this->warning(
-        title: 'Solicitação inválida, campos são obrigatórios',
-        position: 'toast-top toast-end',
-        timeout: 2000,
-        redirectTo: '/login'
-      );
+      Session::flash('status.warning', 'Token ou email inexistentes.');
+      $this->redirect('/login');
     }
   }
 

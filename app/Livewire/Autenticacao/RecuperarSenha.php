@@ -4,6 +4,7 @@ namespace App\Livewire\Autenticacao;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -31,11 +32,7 @@ class RecuperarSenha extends Component
         ['email' => $this->email]
       );
     }
-    $this->success(
-      title: 'E-mail enviado com sucesso!',
-      position: 'toast-top toast-end',
-      timeout: 2000,
-      redirectTo: '/login',
-    );
+    Session::flash('status.success', 'Email enviado com sucesso');
+    $this->redirect('/login');
   }
 }
