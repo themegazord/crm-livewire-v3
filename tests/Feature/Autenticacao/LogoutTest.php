@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Logout;
+use App\Livewire\Autenticacao\Logout;
 use App\Models\User;
 use Livewire\Livewire;
 

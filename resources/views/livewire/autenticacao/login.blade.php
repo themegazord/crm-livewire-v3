@@ -13,7 +13,10 @@
 
     <x-slot:actions>
       <div class="w-full flex items-center justify-between">
-        <a wire:navigate href="{{ route('autenticacao.registro') }}" class="link link-primary">Cadastre-se</a>
+        <div class="flex flex-col gap-2">
+          <a wire:navigate href="{{ route('autenticacao.registro') }}" class="link link-primary">Cadastre-se</a>
+          <a wire:navigate href="{{ route('password.reset') }}" class="link link-primary">Esqueci minha senha</a>
+        </div>
         <div class="flex gap-4">
           <x-button label="Limpar campos" type="reset" />
           <x-button label="Logar" class="btn-primary" type="submit" spinner="save" />
