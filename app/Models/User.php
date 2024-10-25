@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\RecuperarSenhaNotification;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -59,9 +61,19 @@ class User extends Authenticatable
 
   public function darPermissao(string $permissao): void {
     $this->permissoes()->firstOrCreate(['permissao' => $permissao]);
+
+    Cache::forget($this->permissaoChaveCache());
+    Cache::rememberForever($this->permissaoChaveCache(), fn () => $this->permissoes);
   }
 
   public function temPermissao(string $permissao): bool {
-    return $this->permissoes()->where('permissao', $permissao)->exists();
+    /** @var Collection $permissoes */
+    $permissoes = Cache::get($this->permissaoChaveCache(), $this->permissoes);
+
+    return $permissoes->where('permissao', $permissao)->isNotEmpty();
+  }
+
+  private function permissaoChaveCache(): string {
+    return "user::{$this->id}::permissoes";
   }
 }
