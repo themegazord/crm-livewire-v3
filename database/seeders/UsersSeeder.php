@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pode;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,7 +15,7 @@ class UsersSeeder extends Seeder
   public function run(): void
   {
     User::factory()
-      ->comPermissao('ser um admin')
+      ->comPermissao(Pode::SER_UM_ADMIN->value)
       ->create([
         'name' => 'Admin do CRM',
         'email' => 'admin@crm.com',

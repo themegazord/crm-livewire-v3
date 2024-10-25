@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permissao;
+use App\Models\Pode;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class PermissaoSeeder extends Seeder
   public function run(): void
   {
     Permissao::create([
-      'permissao' => 'ser um admin'
+      'permissao' => Pode::SER_UM_ADMIN->value
     ]);
   }
 }

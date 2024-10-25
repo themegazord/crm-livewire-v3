@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Pode;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Can;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
-    Gate::define('ser-um-admin', fn (User $usuario) => $usuario->temPermissao('ser um admin'));
+    foreach(Pode::cases() as $pode) {
+      Gate::define(str($pode->value)->snake('-')->toString(), fn (User $usuario) => $usuario->temPermissao($pode->value));
+    }
   }
 }
