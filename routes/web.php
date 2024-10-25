@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\Pode;
 use App\Livewire\Autenticacao\Login;
 use App\Livewire\Autenticacao\RecuperarSenha;
 use App\Livewire\Autenticacao\Registro;
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
   // region Admin
 
-  Route::prefix('/admin')->middleware('can:ser-um-admin')->group(function () {
+  Route::prefix('/admin')->middleware('can:' . Pode::SER_UM_ADMIN->value)->group(function () {
     Route::get('/dashboard', fn () => 'admin.dashboard')->name('admin.dashboard');
   });
 

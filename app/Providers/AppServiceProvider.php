@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
   public function boot(): void
   {
     foreach(Pode::cases() as $pode) {
-      Gate::define(str($pode->value)->snake('-')->toString(), fn (User $usuario) => $usuario->temPermissao($pode->value));
+      Gate::define($pode->value, fn (User $usuario) => $usuario->temPermissao($pode->value));
     }
   }
 }
