@@ -55,7 +55,9 @@ test('alimentando com um usuario administrativo', function () {
 });
 
 it("deveria bloquear o acesso as paginas administrativas caso o usuario nao seja um admin", function () {
+  /** @var User $usuario */
   $usuario = User::factory()->create();
+
   actingAs($usuario)
     ->get(route('admin.dashboard'))
     ->assertForbidden();
