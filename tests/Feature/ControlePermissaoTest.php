@@ -23,3 +23,14 @@ it ("deve ser capaz de dar ao usuario uma permissao de fazer qualquer coisa", fu
     'permissao_id' => Permissao::query()->where('permissao', 'ser um admin')->first()->id,
   ]);
 });
+
+
+test('permissao tera de ter um seeder', function () {
+
+  $this->seed(PermissaoSeeder::class);
+
+  assertDatabaseHas('permissoes', [
+    'permissao' => 'ser um admin'
+  ]);
+
+});
