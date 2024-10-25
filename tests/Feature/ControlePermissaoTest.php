@@ -2,6 +2,7 @@
 
 use App\Models\Permissao;
 use App\Models\User;
+use Database\Seeders\PermissaoSeeder;
 
 use function Pest\Laravel\assertDatabaseHas;
 
