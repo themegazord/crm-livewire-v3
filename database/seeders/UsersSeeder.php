@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Pode;
+use App\Enum\Pode;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

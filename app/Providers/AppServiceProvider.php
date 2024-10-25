@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Pode;
+use App\Enum\Pode;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permissao;
-use App\Models\Pode;
+use App\Enum\Pode;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Permissao;
-use App\Models\Pode;
+use App\Enum\Pode;
 use App\Models\User;
 use Database\Seeders\PermissaoSeeder;
 use Database\Seeders\UsersSeeder;
