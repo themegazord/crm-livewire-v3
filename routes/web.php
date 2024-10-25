@@ -19,4 +19,13 @@ Route::get('/logout', function () {
 
 Route::middleware('auth')->group(function () {
   Route::get('/', Welcome::class)->name('dashboard');
+
+  // region Admin
+
+  Route::prefix('/admin')->middleware('can:ser-um-admin')->group(function () {
+    Route::get('/dashboard', fn () => 'admin.dashboard')->name('admin.dashboard');
+  });
+
+  // endregion
+
 });
