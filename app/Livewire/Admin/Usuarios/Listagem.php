@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Admin\Usuarios;
 
+use App\Enum\Pode;
 use App\Models\Permissao;
 use App\Models\User;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +16,7 @@ class Listagem extends Component
   use WithPagination;
 
   public Collection $usuarioPermissoes;
+  public ?int $permissaoIdConsultavel = null;
   public string $consulta = '';
   public array $permissaoConsulta = [];
   public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
@@ -25,7 +25,8 @@ class Listagem extends Component
 
   public function mount()
   {
-    $this->usuarioPermissoes = collect(); // Inicializa como coleção vazia
+    $this->authorize(Pode::SER_UM_ADMIN->value);
+    $this->consultaPermissao();
   }
 
 
@@ -72,14 +73,14 @@ class Listagem extends Component
     ];
   }
 
-  public function permissoes(): Collection
+  public function consultaPermissao(string $valor = ''): void
   {
-    return Permissao::all();
-  }
+    $opcaoSelecionada = Permissao::where('id', $this->permissaoIdConsultavel)->get();
 
-  public function abrirModalPermissoes(int $usuarioId)
-  {
-    $this->usuarioPermissoes = User::find($usuarioId)->permissoes; // Carrega permissões
-    $this->modalPermissao = true; // Abre o modal
+    $this->usuarioPermissoes = Permissao::query()
+      ->where('permissao', 'like', "%$valor%")
+      ->orderBy('permissao')
+      ->get()
+      ->merge($opcaoSelecionada);
   }
 }
