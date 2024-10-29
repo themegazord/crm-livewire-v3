@@ -1,12 +1,25 @@
 <div class="flex flex-col">
   <x-header title="Listagem de usuários" separator />
-  <x-input label="Insira o id, nome ou email de algum usuário que deseja consultar" wire:model.live="consulta" placeholder="Id, nome, email..." clearable />
+  <div class="mb-4 flex items-end space-x-4">
+    <div class="w-1/3">
+      <x-input icon="o-magnifying-glass" label="Insira o id, nome ou email de algum usuário que deseja consultar" wire:model.live="consulta" placeholder="Id, nome, email..." class="input-sm" clearable />
+    </div>
+    <x-select
+      label="Permissões"
+      :options="$this->permissoes()"
+      option-value="permissao_id"
+      option-label="permissao"
+      wire:model.live="permissaoConsulta"
+      placeholder="Filtre por permissão"
+      :placeholder-value="null"
+      inline
+      class="select-sm"/>
+  </div>
   <x-table
     :headers="$this->headers()"
     :rows="$this->usuarios()"
     with-pagination
     striped
-    class="mt-[3rem]"
     per-page="perPage"
     :sort-by="$sortBy"
     :per-page-values="[3, 5, 10]">
