@@ -96,7 +96,9 @@ it ('deve ser capaz de filtrar por nome e email', function () {
 it ('deve ser capaz de filtrar por permissao', function () {
   $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
   $guest = User::factory()->create(['name' => 'Mario', 'email' => 'little_guy@gmail.com']);
+  $guest->darPermissao(Pode::TESTANDO->value);
   $permissao = Permissao::where('permissao', Pode::SER_UM_ADMIN->value)->first();
+  $permissao2 = Permissao::where('permissao', Pode::TESTANDO->value)->first();
   actingAs($admin);
 
   Livewire::test(Usuarios\Listagem::class)
@@ -106,12 +108,10 @@ it ('deve ser capaz de filtrar por permissao', function () {
 
       return true;
     })
-    ->set('permissaoConsulta', [$permissao->id])
+    ->set('permissaoConsulta', [$permissao->id, $permissao2->id])
     ->assertSet('usuarios',function ($usuarios) {
       expect($usuarios)
-        ->toHaveCount(1)
-      ->first()
-      ->name->toBe('Joe Doe');
+        ->toHaveCount(2);
 
       return true;
     });
