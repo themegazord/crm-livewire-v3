@@ -43,11 +43,8 @@ class Listagem extends Component
     $usuarios = User::query()
       ->select(['users.id', 'users.name', 'users.email'])
       ->when($this->permissaoConsulta, function ($query) {
-        $query->whereExists(function ($subQuery) {
-          $subQuery->select(DB::raw(1))
-            ->from('permissao_user')
-            ->whereColumn('permissao_user.user_id', 'users.id')
-            ->whereIn('permissao_user.permissao_id', $this->permissaoConsulta);
+        $query->whereHas('permissoes', function ($subQuery) {
+          $subQuery->whereIn('id', $this->permissaoConsulta);
         });
       })
       ->when($this->consulta, function ($query) {
