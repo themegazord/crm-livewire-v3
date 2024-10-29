@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Usuarios;
 use App\Enum\Pode;
 use App\Models\Permissao;
 use App\Models\User;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
@@ -17,8 +18,11 @@ class Listagem extends Component
 
   public Collection $usuarioPermissoes;
   public ?int $permissaoIdConsultavel = null;
+
   public string $consulta = '';
   public array $permissaoConsulta = [];
+  public bool $consultaDeletados = false;
+
   public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
   public int $perPage = 10;
   public bool $modalPermissao = false;
@@ -55,6 +59,7 @@ class Listagem extends Component
             ->orWhere('users.email', 'like', '%' . $this->consulta . '%');
         });
       })
+      ->when($this->consultaDeletados, fn (Builder $builder) => $builder->onlyTrashed())
       ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
       ->paginate($this->perPage);
 

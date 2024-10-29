@@ -117,3 +117,22 @@ it ('deve ser capaz de filtrar por permissao', function () {
     });
 });
 
+it('deve ser capaz de listar os usuarios deletados', function () {
+  $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+  $usuariosDeletados = User::factory(2)->create(['deleted_at' => now()]);
+
+  actingAs($admin);
+
+  Livewire::test(Usuarios\Listagem::class)
+    ->assertSet('usuarios', function ($usuarios) {
+      expect($usuarios)->toHaveCount(1);
+      return true;
+    })
+
+    ->set('consultaDeletados', true)
+    ->assertSet('usuarios', function ($usuarios) {
+      expect($usuarios)->toHaveCount(2);
+      return true;
+    });
+});
+
