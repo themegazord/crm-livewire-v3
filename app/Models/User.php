@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\RecuperarSenhaNotification;
 use App\Traits\Models\TemPermissoes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -50,5 +51,9 @@ class User extends Authenticatable
   public function sendPasswordResetNotification($token): void
   {
     $this->notify(new RecuperarSenhaNotification($token, $this->getEmailForPasswordReset()));
+  }
+
+  public function permissoes(): BelongsToMany {
+    return $this->belongsToMany(Permissao::class);
   }
 }

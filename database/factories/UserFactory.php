@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\Pode;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -45,5 +46,9 @@ class UserFactory extends Factory
 
   public function comPermissao(string $permissao): static {
     return $this->afterCreating(fn (User $usuario) => $usuario->darPermissao($permissao));
+  }
+
+  public function admin(): static {
+    return $this->afterCreating(fn (User $usuario) => $usuario->darPermissao(Pode::SER_UM_ADMIN->value));
   }
 }
