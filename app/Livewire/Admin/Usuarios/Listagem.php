@@ -35,6 +35,7 @@ class Listagem extends Component
   }
 
   #[On("usuario::deletado")]
+  #[On("usuario::restaurado")]
   public function render()
   {
     return view('livewire.admin.usuarios.listagem');
@@ -104,5 +105,9 @@ class Listagem extends Component
 
   public function destroy(int $usuario_id): void {
     $this->dispatch("usuario::deletar", usuarioId: $usuario_id);
+  }
+
+  public function restore(int $usuario_id): void {
+    $this->dispatch("usuario::resetar", usuarioId: $usuario_id);
   }
 }

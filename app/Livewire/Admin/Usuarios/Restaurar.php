@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Usuarios;
 
 use App\Models\User;
 use App\Notifications\UsuarioResetadoNotification;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -28,8 +29,9 @@ class Restaurar extends Component
     return view('livewire.admin.usuarios.restaurar');
   }
 
-  public function configuraModalDeConfirmacao(int $usuario_id): void {
-    $this->usuario = User::withTrashed()->find($usuario_id);
+  #[On("usuario::resetar")]
+  public function configuraModalDeConfirmacao(int $usuarioId): void {
+    $this->usuario = User::withTrashed()->find($usuarioId);
     $this->confirmacao = $this->usuario->name;
     $this->modal = true;
   }
