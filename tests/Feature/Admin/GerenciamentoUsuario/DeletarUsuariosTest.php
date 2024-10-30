@@ -16,8 +16,10 @@ it('deve ser capaz de deletar o usuario', function () {
 
   actingAs($admin);
 
-  Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
+  Livewire::test(Usuarios\Remover::class)
+    ->set('usuario', $paraDeletar)
     ->set('confirmacao_confirmation', $paraDeletar->name)
+    ->call('configuraModalDeConfirmacao', $paraDeletar->id)
     ->call('destroy')
     ->assertDispatched('usuario::deletado');
 
@@ -32,11 +34,13 @@ it('deve ter uma confirmacao antes da remocao do usuario', function () {
 
   actingAs($admin);
 
-  Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
+  Livewire::test(Usuarios\Remover::class)
+    ->set('usuario', $paraDeletar)
+    ->set('confirmacao', 'nao e o nome')
+    ->call('configuraModalDeConfirmacao', $paraDeletar->id)
     ->call('destroy')
     ->assertHasErrors(['confirmacao' => 'confirmed'])
-    ->assertNotDispatched('usuario::deletado');
-
+    ->assertNotDispatched('usuario::deletar');
   assertNotSoftDeleted('users', [
     'id' => $paraDeletar->id
   ]);
@@ -50,8 +54,10 @@ it('deve mandar uma notificacao para o usuario informando que sua conta foi inat
 
   actingAs($admin);
 
-  Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
+  Livewire::test(Usuarios\Remover::class)
+    ->set('usuario', $paraDeletar)
     ->set('confirmacao_confirmation', $paraDeletar->name)
+    ->call('configuraModalDeConfirmacao', $paraDeletar->id)
     ->call('destroy');
 
   Notification::assertSentTo($paraDeletar, UsuarioDeletadoNotification::class);

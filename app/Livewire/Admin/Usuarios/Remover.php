@@ -27,7 +27,7 @@ class Remover extends Component
   #[On("usuario::deletar")]
   public function configuraModalDeConfirmacao(int $usuarioId): void {
     $this->usuario = User::select(['id', 'name'])->find($usuarioId);
-    $this->confirmacao = $this->usuario->name;
+    $this->confirmacao = $this->usuario?->name;
     $this->modal = true;
   }
 
