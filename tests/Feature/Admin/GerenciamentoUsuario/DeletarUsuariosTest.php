@@ -3,6 +3,8 @@
 use App\Models\User;
 use Livewire\Livewire;
 use App\Livewire\Admin\Usuarios;
+use App\Notifications\UsuarioDeletadoNotification;
+use Illuminate\Support\Facades\Notification;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
@@ -38,4 +40,19 @@ it('deve ter uma confirmacao antes da remocao do usuario', function () {
   assertNotSoftDeleted('users', [
     'id' => $paraDeletar->id
   ]);
+});
+
+it('deve mandar uma notificacao para o usuario informando que sua conta foi inativada', function () {
+  Notification::fake();
+
+  $admin = User::factory()->admin()->create();
+  $paraDeletar = User::factory()->create();
+
+  actingAs($admin);
+
+  Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
+    ->set('confirmacao_confirmation', 'MEGAZORDE')
+    ->call('destroy');
+
+  Notification::assertSentTo($paraDeletar, UsuarioDeletadoNotification::class);
 });
