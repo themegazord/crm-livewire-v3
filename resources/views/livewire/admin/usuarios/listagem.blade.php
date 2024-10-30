@@ -14,6 +14,9 @@
         no-result-text="Ops! Não existe essa permissão"
         searchable />
     </div>
+    <div class="w-1/3">
+      <x-checkbox label="Deletados?" wire:model.live="consultaDeletados" class="checkbox-warning" right tight />
+    </div>
   </div>
   <x-table
     :headers="$this->headers()"
@@ -31,7 +34,11 @@
     @endscope
 
     @scope('actions', $usuario)
-    <x-button icon="o-trash" wire:click="delete({{ $usuario->id }})" spinner class="btn-sm"></x-button>
+    @unless ($usuario->trashed())
+    <x-button icon="o-trash" wire:click="deletarUsuario({{ $usuario->id }})" spinner class="btn-sm"></x-button>
+    @else
+    <x-button icon="o-arrow-path-rounded-square" wire:click="deletarUsuario({{ $usuario->id }})" spinner class="btn-sm btn-success btn-ghost"></x-button>
+    @endunless
     @endscope
   </x-table>
 </div>

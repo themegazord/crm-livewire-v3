@@ -46,7 +46,6 @@ class Listagem extends Component
       'permissaoConsulta.exists' => 'A permissão não existe.'
     ]);
     $usuarios = User::query()
-      ->select(['users.id', 'users.name', 'users.email'])
       ->when($this->permissaoConsulta, function ($query) {
         $query->whereHas('permissoes', function ($subQuery) {
           $subQuery->whereIn('id', $this->permissaoConsulta);
@@ -87,5 +86,13 @@ class Listagem extends Component
       ->orderBy('permissao')
       ->get()
       ->merge($opcaoSelecionada);
+  }
+
+  public function deletarUsuario(int $usuario_id): void {
+    if (User::withTrashed()->find($usuario_id)->trashed()) {
+      User::withTrashed()->find($usuario_id)->restore();
+    } else {
+      User::find($usuario_id)->delete();
+    }
   }
 }
