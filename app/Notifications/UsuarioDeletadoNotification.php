@@ -35,6 +35,7 @@ class UsuarioDeletadoNotification extends Notification
   public function toMail(object $notifiable): MailMessage
   {
     return (new MailMessage)
+      ->subject("Inativação de cadastro.")
       ->greeting("Olá, $this->nome")
       ->line('Você não tem acessado com frequência a aplicação ' . env('APP_NAME', 'Laravel'))
       ->salutation('Até mais!');

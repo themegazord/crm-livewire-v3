@@ -9,6 +9,7 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -33,7 +34,7 @@ class Listagem extends Component
     $this->consultaPermissao();
   }
 
-
+  #[On("usuario::deletado")]
   public function render()
   {
     return view('livewire.admin.usuarios.listagem');
@@ -99,5 +100,9 @@ class Listagem extends Component
     } else {
       User::find($usuario_id)->delete();
     }
+  }
+
+  public function destroy(int $usuario_id): void {
+    $this->dispatch("usuario::deletar", usuarioId: $usuario_id);
   }
 }
