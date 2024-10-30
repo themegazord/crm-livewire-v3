@@ -24,7 +24,7 @@ class Listagem extends Component
   public bool $consultaDeletados = false;
 
   public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
-  public int $perPage = 10;
+  public int $perPage = 15;
   public bool $modalPermissao = false;
 
   public function mount()
@@ -39,6 +39,10 @@ class Listagem extends Component
     return view('livewire.admin.usuarios.listagem');
   }
 
+  public function updatedPerPage($value): void {
+    $this->resetPage();
+  }
+
   #[Computed]
   public function usuarios(): LengthAwarePaginator
   {
@@ -46,6 +50,7 @@ class Listagem extends Component
       'permissaoConsulta.exists' => 'A permissão não existe.'
     ]);
     $usuarios = User::query()
+      ->with('permissoes')
       ->when($this->permissaoConsulta, function ($query) {
         $query->whereHas('permissoes', function ($subQuery) {
           $subQuery->whereIn('id', $this->permissaoConsulta);

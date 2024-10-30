@@ -136,3 +136,32 @@ it('deve ser capaz de listar os usuarios deletados', function () {
     });
 });
 
+it("deve ser capaz de ordernar por nome", function () {
+  $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+  $guest = User::factory()->create(['name' => 'Mario', 'email' => 'little_guy@gmail.com']);
+
+  // ASC => Joe, Mario.
+  // DESC => Mario, Joe.
+
+  actingAs($admin);
+
+  Livewire::test(Usuarios\Listagem::class)
+    ->set('sortBy', ['column' => 'name', 'direction' => 'asc'])
+    ->assertSet('usuarios', function ($usuarios) {
+
+      expect($usuarios)
+        ->first()->name->toBe('Joe Doe')
+        ->and($usuarios)->last()->name->toBe('Mario');
+
+      return true;
+    })
+    ->set('sortBy', ['column' => 'name', 'direction' => 'desc'])
+    ->assertSet('usuarios', function ($usuarios) {
+
+      expect($usuarios)
+        ->first()->name->toBe('Mario')
+        ->and($usuarios)->last()->name->toBe('Joe Doe');
+
+      return true;
+    });
+});

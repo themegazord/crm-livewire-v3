@@ -25,7 +25,7 @@
     striped
     per-page="perPage"
     :sort-by="$sortBy"
-    :per-page-values="[3, 5, 10]">
+    :per-page-values="[5, 15, 25, 50]">
 
     @scope('cell_permissoes', $usuario)
     @foreach ($usuario->permissoes as $permissao)
