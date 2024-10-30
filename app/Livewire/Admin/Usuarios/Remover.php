@@ -7,9 +7,12 @@ use App\Notifications\UsuarioDeletadoNotification;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Remover extends Component
 {
+  use Toast;
+
   public ?User $usuario = null;
   #[Rule(['required', 'confirmed'], message: [
     'confirmed' => "O que você inseriu não condiz com o nome do usuário."
@@ -37,5 +40,6 @@ class Remover extends Component
     $this->usuario->notify(new UsuarioDeletadoNotification($this->usuario->name));
     $this->dispatch('usuario::deletado');
     $this->reset(['modal', 'confirmacao_confirmation']);
+    $this->success("Usuário inativado com sucesso");
   }
 }
