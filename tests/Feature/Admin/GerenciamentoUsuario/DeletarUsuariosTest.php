@@ -62,3 +62,20 @@ it('deve mandar uma notificacao para o usuario informando que sua conta foi inat
 
   Notification::assertSentTo($paraDeletar, UsuarioDeletadoNotification::class);
 });
+
+it('deve barrar a inativacao do usuario caso ele seja o autenticado no momento', function () {
+  $admin = User::factory()->admin()->create();
+
+  actingAs($admin);
+
+  Livewire::test(Usuarios\Remover::class)
+    ->set('usuario', $admin)
+    ->set('confirmacao_confirmation', $admin->name)
+    ->call('configuraModalDeConfirmacao', $admin->id)
+    ->call('destroy')
+    ->assertHasErrors(['confirmacao'])
+    ->assertNotDispatched('usuario::deletar');
+  assertNotSoftDeleted('users', [
+    'id' => $admin->id
+  ]);
+});

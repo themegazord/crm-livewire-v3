@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Usuarios;
 
 use App\Models\User;
 use App\Notifications\UsuarioDeletadoNotification;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -36,6 +37,13 @@ class Remover extends Component
 
   public function destroy(): void {
     $this->validate();
+
+    if ($this->usuario->is(Auth::user())) {
+      $this->addError('confirmacao', 'Você não pode inativar você mesmo!');
+
+      return;
+    }
+
     $this->usuario->delete();
     $this->usuario->notify(new UsuarioDeletadoNotification($this->usuario->name));
     $this->dispatch('usuario::deletado');
