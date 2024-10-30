@@ -62,6 +62,9 @@ use App\Enum\Pode;
         @can(Pode::SER_UM_ADMIN->value)
         <x-menu-sub title="Admin" icon="o-lock-closed">
           <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')" />
+          <x-menu-sub title="Usuários" icon="o-users">
+            <x-menu-item title="Listagem" icon="o-numbered-list" :link="route('admin.listagem.usuarios')" />
+          </x-menu-sub>
         </x-menu-sub>
         @endcan
       </x-menu>

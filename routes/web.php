@@ -2,6 +2,7 @@
 
 use App\Enum\Pode;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Usuarios;
 use App\Livewire\Autenticacao\Login;
 use App\Livewire\Autenticacao\RecuperarSenha;
 use App\Livewire\Autenticacao\Registro;
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
   Route::prefix('/admin')->middleware('can:' . Pode::SER_UM_ADMIN->value)->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
+    Route::get('/usuarios', Usuarios\Listagem::class)->name('admin.listagem.usuarios');
   });
 
   // endregion
