@@ -17,7 +17,7 @@ it('deve ser capaz de deletar o usuario', function () {
   actingAs($admin);
 
   Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
-    ->set('confirmacao_confirmation', 'MEGAZORDE')
+    ->set('confirmacao_confirmation', $paraDeletar->name)
     ->call('destroy')
     ->assertDispatched('usuario::deletado');
 
@@ -51,7 +51,7 @@ it('deve mandar uma notificacao para o usuario informando que sua conta foi inat
   actingAs($admin);
 
   Livewire::test(Usuarios\Remover::class, ['usuario' => $paraDeletar])
-    ->set('confirmacao_confirmation', 'MEGAZORDE')
+    ->set('confirmacao_confirmation', $paraDeletar->name)
     ->call('destroy');
 
   Notification::assertSentTo($paraDeletar, UsuarioDeletadoNotification::class);

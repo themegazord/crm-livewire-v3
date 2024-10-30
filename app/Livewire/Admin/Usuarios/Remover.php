@@ -10,11 +10,17 @@ use Livewire\Component;
 class Remover extends Component
 {
   public User $usuario;
-  #[Rule(['required', 'confirmed'])]
-  public string $confirmacao = "MEGAZORDE";
+  #[Rule(['required', 'confirmed'], message: [
+    'confirmed' => "O que você inseriu não condiz com o nome do usuário."
+  ])]
+  public string $confirmacao = "";
   public string $confirmacao_confirmation = "";
 
   public bool $modal = false;
+
+  public function mount(): void {
+    $this->confirmacao = $this->usuario->name;
+  }
 
   public function render()
   {

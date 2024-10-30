@@ -35,7 +35,7 @@
 
     @scope('actions', $usuario)
     @unless ($usuario->trashed())
-    <x-button icon="o-trash" wire:click="deletarUsuario({{ $usuario->id }})" spinner class="btn-sm"></x-button>
+    <livewire:admin.usuarios.remover :usuario="$usuario" wire:key="delete-btn-{{ $usuario->id }}"/>
     @else
     <x-button icon="o-arrow-path-rounded-square" wire:click="deletarUsuario({{ $usuario->id }})" spinner class="btn-sm btn-success btn-ghost"></x-button>
     @endunless
