@@ -79,3 +79,27 @@ it('deve notificar o usuario que sua conta foi reativada por um administrador', 
     'id' => $guest->id
   ]);
 });
+
+it('deve armazenar o administrador que reativou o cadastro do usuario', function () {
+  /** @var User $admin */
+  $admin = User::factory()->admin()->create();
+  /** @var User $guest */
+  $guest = User::factory()->create();
+
+  $guest->delete();
+
+  actingAs($admin);
+
+  Livewire::test(Usuarios\Restaurar::class)
+    ->set('confirmacao_confirmation', $guest->name)
+    ->call('configuraModalDeConfirmacao', $guest->id)
+    ->call('restore')
+    ->assertHasNoErrors();
+
+  $guest->refresh();
+
+  expect($guest)
+    ->restorer_id->not()->toBe(null)
+    ->and($guest->restorer_id)->toBe($admin->id)
+    ->and($guest->restored_at)->not()->toBe(null);
+});

@@ -40,6 +40,12 @@ class Restaurar extends Component
     $this->validate();
 
     $this->usuario->restore();
+
+    $this->usuario->update([
+      'restorer_id' => auth()->user()->id,
+      'restored_at' => now()
+    ]);
+
     $this->usuario->notify(new UsuarioResetadoNotification($this->usuario->name));
 
     $this->dispatch("usuario::restaurado");
