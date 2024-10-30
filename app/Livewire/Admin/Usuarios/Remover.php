@@ -3,11 +3,16 @@
 namespace App\Livewire\Admin\Usuarios;
 
 use App\Models\User;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class Remover extends Component
 {
   public User $usuario;
+  #[Rule(['required', 'confirmed'])]
+  public string $confirmacao = "MEGAZORDE";
+
+  public string $confirmacao_confirmation = "";
 
   public function render()
   {
@@ -15,6 +20,7 @@ class Remover extends Component
   }
 
   public function destroy(): void {
+    $this->validate();
     $this->usuario->delete();
     $this->dispatch('usuario::deletado');
   }
