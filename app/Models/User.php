@@ -23,6 +23,8 @@ class User extends Authenticatable
   protected $fillable = [
     'name',
     'email',
+    'restorer_id',
+    'restored_at',
     'password',
   ];
 
