@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Usuarios;
 
 use App\Models\User;
+use App\Notifications\UsuarioResetadoNotification;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -37,6 +38,8 @@ class Restaurar extends Component
     $this->validate();
 
     $this->usuario->restore();
+    $this->usuario->notify(new UsuarioResetadoNotification($this->usuario->name));
+
     $this->dispatch("usuario::restaurado");
     $this->reset(['modal', 'confirmacao_confirmation']);
     $this->success("Usuário reativado com sucesso");
