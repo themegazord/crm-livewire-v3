@@ -10,13 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable
 {
-  use AuditableTrait;
-
   /** @use HasFactory<\Database\Factories\UserFactory> */
   use HasFactory, Notifiable, TemPermissoes, SoftDeletes;
 
