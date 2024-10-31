@@ -45,6 +45,9 @@ class Remover extends Component
     }
 
     $this->usuario->delete();
+    $this->usuario->update([
+      'remover_id' => auth()->user()->id
+    ]);
     $this->usuario->notify(new UsuarioDeletadoNotification($this->usuario->name));
     $this->dispatch('usuario::deletado');
     $this->reset(['modal', 'confirmacao_confirmation']);
