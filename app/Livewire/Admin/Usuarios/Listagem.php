@@ -110,4 +110,8 @@ class Listagem extends Component
   public function restore(int $usuario_id): void {
     $this->dispatch("usuario::resetar", usuarioId: $usuario_id);
   }
+
+  public function verDetalhes(int $usuario_id): void {
+    $this->dispatch("usuario::detalhar", usuarioId: $usuario_id);
+  }
 }

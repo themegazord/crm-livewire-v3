@@ -34,16 +34,20 @@
     @endscope
 
     @scope('actions', $usuario)
-    @unless ($usuario->trashed())
-    @unless ($usuario->is(auth()->user()))
-    <x-button icon="o-trash" wire:click="destroy({{ $usuario->id }})" spinner class="btn-sm"></x-button>
-    @endunless
-    @else
-    <x-button icon="o-arrow-path-rounded-square" wire:click="restore({{ $usuario->id }})" spinner class="btn-sm btn-success btn-ghost"></x-button>
-    @endunless
+    <div class="flex">
+      <x-button icon="o-eye" wire:click="verDetalhes({{ $usuario->id }})" spinner class="btn-sm" />
+      @unless ($usuario->trashed())
+      @unless ($usuario->is(auth()->user()))
+      <x-button icon="o-trash" wire:click="destroy({{ $usuario->id }})" spinner class="btn-sm"></x-button>
+      @endunless
+      @else
+      <x-button icon="o-arrow-path-rounded-square" wire:click="restore({{ $usuario->id }})" spinner class="btn-sm btn-success btn-ghost"></x-button>
+      @endunless
+    </div>
     @endscope
   </x-table>
 
   <livewire:admin.usuarios.remover />
   <livewire:admin.usuarios.restaurar />
+  <livewire:admin.usuarios.detalhar />
 </div>

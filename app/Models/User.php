@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\RecuperarSenhaNotification;
 use App\Traits\Models\TemPermissoes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +25,7 @@ class User extends Authenticatable
     'name',
     'email',
     'restorer_id',
+    'remover_id',
     'restored_at',
     'password',
   ];
@@ -58,5 +60,13 @@ class User extends Authenticatable
 
   public function permissoes(): BelongsToMany {
     return $this->belongsToMany(Permissao::class);
+  }
+
+  public function restorer(): BelongsTo {
+    return $this->belongsTo(User::class, 'restorer_id', 'id');
+  }
+
+  public function remover(): BelongsTo {
+    return $this->belongsTo(User::class, 'remover_id', 'id');
   }
 }
