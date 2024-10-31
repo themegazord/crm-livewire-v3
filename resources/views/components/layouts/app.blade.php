@@ -73,6 +73,9 @@ use App\Enum\Pode;
 
     {{-- The `$slot` goes here --}}
     <x-slot:content>
+      @if (session('impersonar'))
+        {{ __("Você está impersonando :nome, clique aqui para voltar ao normal.", ["nome" => auth()->user()->name]) }}
+      @endif
       {{ $slot }}
     </x-slot:content>
   </x-main>
