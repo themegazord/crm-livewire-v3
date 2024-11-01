@@ -16,9 +16,9 @@ class AlterarImpersonar
    */
   public function handle(Request $request, Closure $next): Response
   {
-    if ($id = session('impersonar')) {
-      Auth::onceUsingId($id);
-    }
+    // if ($id = session('impersonar')) {
+    //   Auth::loginUsingId($id);
+    // }
 
     return $next($request);
   }

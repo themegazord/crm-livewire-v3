@@ -114,4 +114,8 @@ class Listagem extends Component
   public function verDetalhes(int $usuario_id): void {
     $this->dispatch("usuario::detalhar", usuarioId: $usuario_id);
   }
+
+  public function impersonar(int $usuario_id): void {
+    $this->dispatch("usuario::impersonar", usuarioId: $usuario_id);
+  }
 }

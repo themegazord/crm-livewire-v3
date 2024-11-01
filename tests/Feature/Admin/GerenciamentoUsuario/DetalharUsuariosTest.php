@@ -84,10 +84,12 @@ it('deve ter certeza que estamos logando com o usuario impersonado', function ()
   expect(auth()->id())->toBe($admin->id);
 
   Livewire::test(Usuarios\Impersonar::class)
-    ->call('impersonar', $usuario->id);
+    ->call('impersonar', $usuario->id)
+    ->assertRedirect(route('dashboard'));
 
   get(route('dashboard'))
     ->assertSee(__("Você está impersonando :nome, clique aqui para voltar ao normal.", ["nome" => $usuario->name]));
+
 
   expect(auth()->id())->toBe($usuario->id);
 });

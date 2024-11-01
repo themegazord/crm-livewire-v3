@@ -12,10 +12,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
+use Lab404\Impersonate\Models\Impersonate;
 
 class User extends Authenticatable implements Auditable
 {
-  use AuditableTrait;
+  use AuditableTrait, Impersonate;
 
   /** @use HasFactory<\Database\Factories\UserFactory> */
   use HasFactory, Notifiable, TemPermissoes, SoftDeletes;

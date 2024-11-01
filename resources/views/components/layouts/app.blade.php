@@ -63,9 +63,7 @@ use App\Enum\Pode;
         @can(Pode::SER_UM_ADMIN->value)
         <x-menu-sub title="Admin" icon="o-lock-closed">
           <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')" />
-          <x-menu-sub title="Usuários" icon="o-users">
-            <x-menu-item title="Listagem" icon="o-numbered-list" :link="route('admin.listagem.usuarios')" />
-          </x-menu-sub>
+          <x-menu-item title="Usuários" icon="o-users" :link="route('admin.listagem.usuarios')" />
         </x-menu-sub>
         @endcan
       </x-menu>
@@ -73,9 +71,9 @@ use App\Enum\Pode;
 
     {{-- The `$slot` goes here --}}
     <x-slot:content>
-      @if (session('impersonar'))
+      @impersonating()
         {{ __("Você está impersonando :nome, clique aqui para voltar ao normal.", ["nome" => auth()->user()->name]) }}
-      @endif
+      @endImpersonating
       {{ $slot }}
     </x-slot:content>
   </x-main>
